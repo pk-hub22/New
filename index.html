@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jam Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 40px;
+      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+      color: #eee;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2.4rem;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.2);
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #00c3ff, #ffff1c);
+      border-radius: 10px;
+    }
+
+    /* ช่องค้นหา */
+    .search-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .search-box input {
+      background: #1b1b1b;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      color: #fff;
+      width: 250px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .search-box input:focus {
+      box-shadow: 0 0 8px #00ffae;
+    }
+
+    /* ปุ่ม category */
+    .category-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .category-btn {
+      background: #1b1b1b;
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      margin: 0 6px 12px 6px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600;
+    }
+
+    .category-btn.active,
+    .category-btn:hover {
+      background: #00ffae;
+      color: #000;
+    }
+
+    /* Grid container */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Dashboard box */
+    .btn-link {
+      border-radius: 15px;
+      padding: 20px 10px;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* สี background ตาม category */
+    .btn-link[data-category="FSE"] {
+      background: linear-gradient(145deg, #1c1c1c, #2a2a3a);
+    }
+    .btn-link[data-category="P'J"] {
+      background: linear-gradient(145deg, #1c1c1c, #3a2a2a);
+    }
+    .btn-link[data-category="LSM"] {
+      background: linear-gradient(145deg, #1c1c1c, #2a3a2a);
+    }
+    .btn-link[data-category="Compet"] {
+      background: linear-gradient(145deg, #1c1c1c, #3a3a2a);
+    }
+    .btn-link[data-category="other"] {
+      background: linear-gradient(145deg, #1c1c1c, #2a2a2a);
+    }
+
+    .btn-link::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 300%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      transition: 0.6s;
+    }
+
+    .btn-link:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-link:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 255, 150, 0.3);
+    }
+
+    .btn-link img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 10px;
+      opacity: 0.9;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .btn-link span {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .btn-link:hover img {
+      filter: drop-shadow(0 0 10px #00ffae);
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Jam Dashboard</h1>
+
+  <!-- ปุ่ม category -->
+  <div class="category-buttons">
+    <button class="category-btn active" data-category="all">ALL</button>
+    <button class="category-btn" data-category="FSE">FSE</button>
+    <button class="category-btn" data-category="P'J">P_Yui</button>
+    <button class="category-btn" data-category="LSM">LSM</button>
+    <button class="category-btn" data-category="Compet">Compet</button>
+    <button class="category-btn" data-category="other">Other</button>
+  </div>
+
+  <!-- ช่องค้นหา -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 search dashboard...">
+  </div>
+
+  <!-- Grid container -->
+  <div class="grid-container" id="dashboardGrid">
+
+    <a href="https://lookerstudio.google.com/reporting/448b7b2d-e14e-43c7-9888-283caf80ff7b" target="_blank" class="btn-link" data-category="FSE">
+      <img src="https://cdn-icons-png.flaticon.com/512/590/590836.png" alt="Coffee Drip" />
+      <span>Drip Coffee</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/5211caf1-5913-4379-859c-0d2c5014187a" target="_blank" class="btn-link" data-category="FSE">
+      <img src="https://cdn-icons-png.flaticon.com/512/5304/5304725.png" alt="Tea" />
+      <span>AllTea</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/3f347c4f-6106-4cc9-be2a-84dab11d0772/page/p_fmw4hgzvrd" target="_blank" class="btn-link" data-category="FSE">
+      <img src="https://cdn-icons-png.flaticon.com/512/7522/7522555.png" alt="French Bread" />
+      <span>FrenchBread</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/485f9072-6899-4698-a9e1-7abfd53e307b/page/p_fmw4hgzvrd" target="_blank" class="btn-link" data-category="FSE">
+      <img src="https://cdn-icons-png.flaticon.com/512/8204/8204862.png" alt="ยำ" />
+      <span>AllZapp</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/569ef9c7-d60c-4d22-855e-6b0299a4c942/page/p_fmw4hgzvrd" target="_blank" class="btn-link" data-category="FSE">
+      <img src="https://cdn-icons-png.flaticon.com/512/4809/4809640.png" alt="SukiCup" />
+      <span>SukiCup</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/f725f9ba-595c-4049-bc8d-46b605bbd286/page/p_02ibc9b58c" target="_blank" class="btn-link" data-category="P'J">
+      <img src="https://cdn-icons-png.flaticon.com/512/751/751061.png" alt="Bun" />
+      <span>GoPan</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/ebef5dec-9199-4461-91e5-dc4c034895f7/page/p_02ibc9b58c" target="_blank" class="btn-link" data-category="P'J">
+      <img src="https://cdn-icons-png.flaticon.com/512/3595/3595455.png" alt="Pizza" />
+      <span>GoPizza</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/e4b5c380-9403-4e1c-852e-9c50debb1883/page/p_fmw4hgzvrd" target="_blank" class="btn-link" data-category="P'J">
+      <img src="https://cdn-icons-png.flaticon.com/512/3183/3183480.png" alt="Sushi Set" />
+      <span>Uoriki</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/6ceb9e11-73d2-440b-a40e-126e3d48803a/page/hrkaF" target="_blank" class="btn-link" data-category="LSM">
+      <img src="https://cdn-icons-png.flaticon.com/512/3322/3322056.png" alt="Dashboard 9" />
+      <span>หลุมข้าง Vault</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/6f22ff24-bcc7-4d4e-9b67-c1ba0d93b672" target="_blank" class="btn-link" data-category="LSM">
+      <img src="https://cdn-icons-png.flaticon.com/512/1458/1458268.png" alt="Dashboard 10" />
+      <span>Missing AGC AC</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/c81483cc-0095-4e2c-a231-8f13dff8f606/page/p_zoblimqltd" target="_blank" class="btn-link" data-category="Compet">
+      <img src="https://cdn-icons-png.flaticon.com/512/10755/10755167.png" alt="Dashboard 10" />
+      <span>Compet MTD</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/8db003b6-b407-4012-a9fc-05df1360ba45/page/p_oshn5jmvvd" target="_blank" class="btn-link" data-category="Compet">
+      <img src="https://cdn-icons-png.flaticon.com/512/10755/10755587.png" alt="Dashboard 10" />
+      <span>Compet YTD</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/59cd38e8-aebd-4aae-a602-b31893741bf0/page/p_4ruozoa5vd" target="_blank" class="btn-link" data-category="Compet">
+      <img src="https://cdn-icons-png.flaticon.com/512/5532/5532931.png" alt="Dashboard 10" />
+      <span>Adhoc Compet</span>
+    </a>
+
+    <a href="https://lookerstudio.google.com/reporting/508f9525-73ad-46a4-ac87-539694744dd8/page/p_hsmlex7dwd" target="_blank" class="btn-link" data-category="Compet">
+      <img src="https://cdn-icons-png.flaticon.com/512/8168/8168295.png" alt="Dashboard 10" />
+      <span>Rebound</span>
+    </a>
+
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const grid = document.getElementById('dashboardGrid');
+    const cards = grid.getElementsByClassName('btn-link');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+
+    let activeCategory = 'all';
+
+    // ฟังก์ชัน filter
+    function filterDashboard() {
+      const filterText = searchInput.value.toLowerCase();
+
+      for (let card of cards) {
+        const textMatch = card.innerText.toLowerCase().includes(filterText);
+        const categoryMatch = (activeCategory === 'all' || card.getAttribute('data-category') === activeCategory);
+
+        card.style.display = (textMatch && categoryMatch) ? '' : 'none';
+      }
+    }
+
+    // search filter
+    searchInput.addEventListener('input', filterDashboard);
+
+    // category filter
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.getAttribute('data-category');
+        filterDashboard();
+      });
+    });
+
+  </script>
+
+</body>
+</html>
