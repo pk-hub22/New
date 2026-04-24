@@ -62,6 +62,7 @@
             transform: translateY(20px) scale(0.98);
             animation: card-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             animation-delay: calc(var(--card-index, 0) * 45ms);
+            --hover-tilt: -1.5deg;
         }
 
         .img-container { 
@@ -78,25 +79,44 @@
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
             transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.3s ease;
             position: relative;
+            isolation: isolate;
+        }
+
+        .img-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .icon-motion {
+            width: 68%;
+            height: 68%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .img-container img {
-            width: 68%;
-            height: 68%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.22));
             transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
-            animation: float-icon 3.8s ease-in-out infinite;
-            animation-delay: calc(var(--card-index, 0) * 120ms);
         }
 
         .keeper-card:hover .img-container {
-            transform: translateY(-8px) rotate(-1.5deg);
+            transform: translateY(-8px) rotate(var(--hover-tilt));
             box-shadow: 0 28px 48px rgba(0, 0, 0, 0.26);
             border-color: rgba(255, 255, 255, 0.18);
         }
 
-        .keeper-card:nth-child(even):hover .img-container { transform: translateY(-8px) rotate(1.5deg); }
+        .keeper-card:nth-child(even) { --hover-tilt: 1.5deg; }
         .keeper-card:hover .img-container img {
             transform: scale(1.08) rotate(4deg);
             filter: drop-shadow(0 24px 22px rgba(0, 0, 0, 0.3));
@@ -113,17 +133,133 @@
             100% { opacity: 1; }
         }
 
-        @keyframes float-icon {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
         @keyframes card-enter {
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
+
+        @keyframes drip-sway { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+        @keyframes fry-sizzle { 0%,100% { transform: translate(0,0) rotate(0); } 20% { transform: translate(-2px,-2px) rotate(-5deg); } 40% { transform: translate(2px,1px) rotate(4deg); } 60% { transform: translate(-1px,-1px) rotate(-3deg); } 80% { transform: translate(2px,0) rotate(2deg); } }
+        @keyframes tea-orbit { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+        @keyframes bread-stretch { 0%,100% { transform: scale(1,1); } 30% { transform: scale(0.92,1.08); } 60% { transform: scale(1.04,0.96); } }
+        @keyframes zapp-shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-7deg) translateX(-3px); } 50% { transform: rotate(7deg) translateX(3px); } 75% { transform: rotate(-4deg) translateX(-2px); } }
+        @keyframes suki-swirl { 0% { transform: rotate(0) translateY(0); } 50% { transform: rotate(10deg) translateY(-9px); } 100% { transform: rotate(0) translateY(0); } }
+        @keyframes gaggia-pump { 0%,100% { transform: scale(1); } 30% { transform: scale(1.06,0.94); } 55% { transform: scale(0.96,1.04); } }
+        @keyframes pan-toss { 0%,100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-12px) rotate(-9deg); } 70% { transform: translateY(-3px) rotate(7deg); } }
+        @keyframes pizza-spin { 0%,100% { transform: rotate(0); } 50% { transform: rotate(12deg); } }
+        @keyframes sushi-swim { 0%,100% { transform: translateX(0) rotate(0); } 25% { transform: translateX(-8px) rotate(-4deg); } 75% { transform: translateX(8px) rotate(4deg); } }
+        @keyframes laos-swing { 0%,100% { transform: rotate(-3deg) translateY(0); } 50% { transform: rotate(3deg) translateY(-5px); } }
+        @keyframes gq-strut { 0%,100% { transform: translateY(0) skewX(0); } 50% { transform: translateY(-10px) skewX(-4deg); } }
+        @keyframes vault-rumble { 0%,100% { transform: rotate(0); } 20% { transform: rotate(-4deg); } 40% { transform: rotate(4deg); } 60% { transform: rotate(-3deg); } 80% { transform: rotate(3deg); } }
+        @keyframes snack-bounce { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-12px) scale(1.06); } 60% { transform: translateY(0) scale(0.96); } }
+        @keyframes choco-melt { 0%,100% { transform: scale(1,1); } 50% { transform: scale(1.04,0.95) translateY(4px); } }
+        @keyframes oil-slosh { 0%,100% { transform: rotate(-2deg) translateX(0); } 50% { transform: rotate(6deg) translateX(3px); } }
+        @keyframes alert-blink { 0%,100% { opacity: 1; transform: scale(1); } 25% { opacity: 0.45; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1.06); } }
+        @keyframes pin-drop { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-14px); } 70% { transform: translateY(4px); } }
+        @keyframes person-radar { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        @keyframes fruit-roll { 0%,100% { transform: rotate(0) translateY(0); } 50% { transform: rotate(14deg) translateY(-7px); } }
+        @keyframes cheese-wobble { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-6deg) translateY(-3px); } 50% { transform: rotate(6deg) translateY(-7px); } 75% { transform: rotate(-3deg); } }
+        @keyframes salad-toss { 0%,100% { transform: rotate(0) scale(1); } 50% { transform: rotate(-12deg) scale(1.06); } }
+        @keyframes chart-rise { 0%,100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-9px) scaleY(1.08); } }
+        @keyframes graph-climb { 0%,100% { transform: translate(0,0); } 50% { transform: translate(8px,-10px); } }
+        @keyframes trade-dart { 0%,100% { transform: translate(0,0) rotate(0); } 50% { transform: translate(10px,-12px) rotate(10deg); } }
+        @keyframes rebound-pop { 0%,100% { transform: translateY(0) scale(1); } 35% { transform: translateY(10px) scale(0.94); } 65% { transform: translateY(-14px) scale(1.05); } }
+        @keyframes pharmacy-pop { 0%,100% { transform: scale(1); } 45% { transform: scale(1.12); } 70% { transform: scale(0.98); } }
+        @keyframes care-bubble { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-8px) rotate(5deg); } }
+        @keyframes select-sip { 0%,100% { transform: rotate(0) translateY(0); } 50% { transform: rotate(-9deg) translateY(-9px); } }
+        @keyframes supreme-pour { 0%,100% { transform: rotate(0); } 50% { transform: rotate(9deg) translateY(-6px); } }
+        @keyframes pet-hop { 0%,100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-12px) rotate(-8deg); } 60% { transform: translateY(-2px) rotate(6deg); } }
+        @keyframes stroller-roll { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+        @keyframes parcel-shift { 0%,100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-8px) rotate(-4deg); } 70% { transform: translateY(-2px) rotate(4deg); } }
+        @keyframes sale-swing { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(6deg) translateY(-6px); } }
+        @keyframes search-peek { 0%,100% { transform: translateX(0); } 50% { transform: translateX(10px) rotate(6deg); } }
+        @keyframes error-glitch { 0%,100% { transform: translate(0,0); } 20% { transform: translate(-3px,2px); } 40% { transform: translate(3px,-2px); } 60% { transform: translate(-2px,-1px); } 80% { transform: translate(2px,1px); } }
+
+        .keeper-card[data-motion="drip-coffee"] .icon-motion { animation: drip-sway 4.2s ease-in-out infinite; }
+        .keeper-card[data-motion="fried-food"] .icon-motion { animation: fry-sizzle 1.4s ease-in-out infinite; }
+        .keeper-card[data-motion="all-tea"] .icon-motion { animation: tea-orbit 4.6s ease-in-out infinite; }
+        .keeper-card[data-motion="french-bread"] .icon-motion { animation: bread-stretch 2.6s ease-in-out infinite; }
+        .keeper-card[data-motion="all-zapp"] .icon-motion { animation: zapp-shake 1.6s ease-in-out infinite; }
+        .keeper-card[data-motion="suki-cup"] .icon-motion { animation: suki-swirl 3.6s ease-in-out infinite; }
+        .keeper-card[data-motion="gaggia"] .icon-motion { animation: gaggia-pump 2.4s ease-in-out infinite; }
+        .keeper-card[data-motion="go-pan"] .icon-motion { animation: pan-toss 3.2s ease-in-out infinite; }
+        .keeper-card[data-motion="go-pizza"] .icon-motion { animation: pizza-spin 3.4s ease-in-out infinite; }
+        .keeper-card[data-motion="uoriki"] .icon-motion { animation: sushi-swim 4s ease-in-out infinite; }
+        .keeper-card[data-motion="thai-laos"] .icon-motion { animation: laos-swing 4.2s ease-in-out infinite; }
+        .keeper-card[data-motion="gq-easy"] .icon-motion { animation: gq-strut 3.2s ease-in-out infinite; }
+        .keeper-card[data-motion="vault"] .icon-motion { animation: vault-rumble 2.5s ease-in-out infinite; }
+        .keeper-card[data-motion="snackup"] .icon-motion { animation: snack-bounce 2.3s ease-in-out infinite; }
+        .keeper-card[data-motion="chococlub"] .icon-motion { animation: choco-melt 3.8s ease-in-out infinite; }
+        .keeper-card[data-motion="fullshelfoil"] .icon-motion { animation: oil-slosh 3.5s ease-in-out infinite; }
+        .keeper-card[data-motion="missing-agc"] .icon-motion { animation: alert-blink 1.8s ease-in-out infinite; }
+        .keeper-card[data-motion="store-tour"] .icon-motion { animation: pin-drop 2.4s ease-in-out infinite; }
+        .keeper-card[data-motion="missing-project"] .icon-motion { animation: person-radar 2.6s ease-in-out infinite; }
+        .keeper-card[data-motion="ub-opentype"] .icon-motion { animation: fruit-roll 3.2s ease-in-out infinite; }
+        .keeper-card[data-motion="cm-cheese"] .icon-motion { animation: cheese-wobble 2.7s ease-in-out infinite; }
+        .keeper-card[data-motion="rsl-salad"] .icon-motion { animation: salad-toss 3.2s ease-in-out infinite; }
+        .keeper-card[data-motion="compet-mtd"] .icon-motion { animation: chart-rise 2.8s ease-in-out infinite; }
+        .keeper-card[data-motion="compet-ytd"] .icon-motion { animation: graph-climb 4.5s ease-in-out infinite; }
+        .keeper-card[data-motion="adhoc-compet"] .icon-motion { animation: trade-dart 2.7s ease-in-out infinite; }
+        .keeper-card[data-motion="rebound"] .icon-motion { animation: rebound-pop 2.1s ease-in-out infinite; }
+        .keeper-card[data-motion="all-care-pharmacy"] .icon-motion { animation: pharmacy-pop 2.6s ease-in-out infinite; }
+        .keeper-card[data-motion="all-care"] .icon-motion { animation: care-bubble 3.3s ease-in-out infinite; }
+        .keeper-card[data-motion="all-select"] .icon-motion { animation: select-sip 3.1s ease-in-out infinite; }
+        .keeper-card[data-motion="all-supreme"] .icon-motion { animation: supreme-pour 3.8s ease-in-out infinite; }
+        .keeper-card[data-motion="happy-pet"] .icon-motion { animation: pet-hop 2.5s ease-in-out infinite; }
+        .keeper-card[data-motion="mom-kids"] .icon-motion { animation: stroller-roll 3.2s ease-in-out infinite; }
+        .keeper-card[data-motion="linkpack"] .icon-motion { animation: parcel-shift 3s ease-in-out infinite; }
+        .keeper-card[data-motion="lsm-sale"] .icon-motion { animation: sale-swing 3.6s ease-in-out infinite; }
+        .keeper-card[data-motion="searching"] .icon-motion { animation: search-peek 2.4s ease-in-out infinite; }
+        .keeper-card[data-motion="adhoc-missing"] .icon-motion { animation: error-glitch 1.9s ease-in-out infinite; }
+
+        .keeper-card[data-motion="searching"]:hover .img-container::after {
+            opacity: 1;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 42%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.08) 58%, transparent 100%);
+            animation: search-scan 1.2s ease-out infinite;
+        }
+
+        .keeper-card[data-motion="store-tour"]:hover .img-container::after,
+        .keeper-card[data-motion="missing-project"]:hover .img-container::after,
+        .keeper-card[data-motion="all-care"]:hover .img-container::after,
+        .keeper-card[data-motion="gq-easy"]:hover .img-container::after {
+            opacity: 1;
+        }
+
+        .keeper-card[data-motion="store-tour"]:hover .img-container::after {
+            inset: 24%;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 999px;
+            animation: ping-ring 1.3s ease-out infinite;
+            background: transparent;
+        }
+
+        .keeper-card[data-motion="missing-project"]:hover .img-container::after {
+            inset: 18%;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.16);
+            animation: ping-ring 1.4s ease-out infinite;
+            background: transparent;
+        }
+
+        .keeper-card[data-motion="all-care"]:hover .img-container::after {
+            background:
+                radial-gradient(circle at 28% 72%, rgba(255,255,255,0.2) 0 8px, transparent 9px),
+                radial-gradient(circle at 50% 46%, rgba(255,255,255,0.16) 0 11px, transparent 12px),
+                radial-gradient(circle at 72% 66%, rgba(255,255,255,0.18) 0 7px, transparent 8px);
+            animation: bubble-rise 1.6s ease-out infinite;
+        }
+
+        .keeper-card[data-motion="gq-easy"]:hover .img-container::after {
+            background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%);
+            animation: style-flash 1s ease-out infinite;
+        }
+
+        @keyframes search-scan { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+        @keyframes ping-ring { from { transform: scale(0.5); opacity: 0.65; } to { transform: scale(1.55); opacity: 0; } }
+        @keyframes bubble-rise { from { transform: translateY(16px); opacity: 0.15; } to { transform: translateY(-18px); opacity: 0.6; } }
+        @keyframes style-flash { from { transform: translateX(-140%) skewX(-18deg); opacity: 0; } 40% { opacity: 1; } to { transform: translateX(140%) skewX(-18deg); opacity: 0; } }
 
         /* เมื่อ Hover ที่การ์ด ให้จุดสี่เหลี่ยมกระพริบ */
         .keeper-card:hover .dot {
@@ -143,7 +279,7 @@
             main { padding: 28px 24px; }
             .nft-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 22px; }
             .img-container { border-radius: 24px; }
-            .img-container img { width: 72%; height: 72%; }
+            .icon-motion { width: 72%; height: 72%; }
         }
     </style>
 </head>
@@ -170,46 +306,84 @@
     <script>
         // ข้อมูลชุดเดิมที่คุณส่งมาทั้งหมด
         const dashboards = [
-            { name: "Drip Coffee", img: "assets/thiings/coffee.png", link: "https://lookerstudio.google.com/reporting/448b7b2d-e14e-43c7-9888-283caf80ff7b", cat: "FSE" },
-            { name: "Fried Food", img: "assets/thiings/french-fries.png", link: "https://lookerstudio.google.com/reporting/01d65115-314c-447e-81e8-c8e2af676a45", cat: "FSE" },
-            { name: "All Tea", img: "assets/thiings/tea.png", link: "https://lookerstudio.google.com/reporting/5211caf1-5913-4379-859c-0d2c5014187a", cat: "FSE" },
-            { name: "French Bread", img: "assets/thiings/baguette.png", link: "https://lookerstudio.google.com/reporting/3f347c4f-6106-4cc9-be2a-84dab11d0772/page/p_fmw4hgzvrd", cat: "FSE" },
-            { name: "All Zapp", img: "assets/thiings/sichuan-dry-pot.png", link: "https://lookerstudio.google.com/reporting/485f9072-6899-4698-a9e1-7abfd53e307b/page/p_fmw4hgzvrd", cat: "FSE" },
-            { name: "Suki Cup", img: "assets/thiings/sukiyaki.png", link: "https://lookerstudio.google.com/reporting/569ef9c7-d60c-4d22-855e-6b0299a4c942/page/p_fmw4hgzvrd", cat: "FSE" },
-            { name: "Gaggia", img: "assets/thiings/coffee-maker.png", link: "https://lookerstudio.google.com/reporting/e679ba5d-e517-4464-b621-f2a2b2ced9cc", cat: "FSE" },
-            { name: "Go Pan", img: "assets/thiings/taro-bun.png", link: "https://lookerstudio.google.com/reporting/f725f9ba-595c-4049-bc8d-46b605bbd286/page/p_02ibc9b58c", cat: "P_Yui" },
-            { name: "Go Pizza", img: "assets/thiings/pizza.png", link: "https://lookerstudio.google.com/reporting/ebef5dec-9199-4461-91e5-dc4c034895f7/page/p_02ibc9b58c", cat: "P_Yui" },
-            { name: "Uoriki", img: "assets/thiings/sushi.png", link: "https://lookerstudio.google.com/reporting/e4b5c380-9403-4e1c-852e-9c50debb1883/page/p_fmw4hgzvrd", cat: "P_Yui" },
-            { name: "ThaiLaos", img: "assets/thiings/laos.png", link: "https://lookerstudio.google.com/u/0/reporting/4131dc0b-814c-4c6f-baa5-8b01d3bdfbce/page/tMQtF", cat: "LSM" },
-            { name: "GQ Easy", img: "assets/thiings/linen-blazer.png", link: "https://lookerstudio.google.com/reporting/bf4d91e9-7971-4422-b866-b1b1a4566274", cat: "LSM" },
-            { name: "หลุมข้าง Vault", img: "assets/thiings/washing-machine.png", link: "https://lookerstudio.google.com/reporting/150b8a3f-7ea0-4bab-9053-c734508b0d64", cat: "LSM" },
-            { name: "Snackup & Choco", img: "assets/thiings/candy-1.png", link: "https://lookerstudio.google.com/reporting/a8c1ea56-c535-44c0-a96f-15865ba20648", cat: "LSM" },
-            { name: "ChocoClub", img: "assets/thiings/chocolate-1.png", link: "https://lookerstudio.google.com/reporting/c541f5d7-8c65-44e9-b0b1-98bc29db3f79", cat: "LSM" },
-            { name: "FullShelfOil", img: "assets/thiings/sunflower-oil.png", link: "https://lookerstudio.google.com/reporting/9420abbb-5f06-4bda-a224-6ab8a4b63955", cat: "LSM" },
-            { name: "Missing AGC AC", img: "assets/thiings/alert.png", link: "https://lookerstudio.google.com/reporting/6f22ff24-bcc7-4d4e-9b67-c1ba0d93b672", cat: "LSM" },
-            { name: "Store Tour", img: "assets/thiings/location-pin.png", link: "https://lookerstudio.google.com/reporting/252966f0-9153-4e35-9ed6-ba134ae984ad", cat: "LSM" },
-            { name: "Missing All Project", img: "assets/thiings/missing-person.png", link: "https://lookerstudio.google.com/reporting/de4036b8-270f-4b2b-9665-b26fca19adfc", cat: "LSM" },
-            { name: "[UB] Opentype", img: "assets/thiings/fruit.png", link: "https://lookerstudio.google.com/reporting/e286221c-59c8-4b7f-ad2f-8e925a0c7cf5", cat: "LSM" },
-            { name: "[CM] Cheese", img: "assets/thiings/cheese.png", link: "https://lookerstudio.google.com/u/0/reporting/d81e0aa4-ab21-4797-ad66-4100d565da1b/page/p_fmw4hgzvrd", cat: "LSM" },
-            { name: "[RSL] Salad", img: "assets/thiings/salad.png", link: "https://lookerstudio.google.com/reporting/3b9d2ae9-725b-40b4-b529-cc891fb74332", cat: "LSM" },
-            { name: "Compet MTD", img: "assets/thiings/charts.png", link: "https://lookerstudio.google.com/reporting/c81483cc-0095-4e2c-a231-8f13dff8f606/page/p_zoblimqltd", cat: "Compet" },
-            { name: "Compet YTD", img: "assets/thiings/graph.png", link: "https://lookerstudio.google.com/reporting/8db003b6-b407-4012-a9fc-05df1360ba45/page/p_oshn5jmvvd", cat: "Compet" },
-            { name: "Adhoc Compet", img: "assets/thiings/stock-trading-arrow.png", link: "https://lookerstudio.google.com/reporting/4bd48d0c-8f5c-46b2-9667-b66c9cd658f9", cat: "Compet" },
-            { name: "Rebound", img: "assets/thiings/dashboard.png", link: "https://lookerstudio.google.com/reporting/508f9525-73ad-46a4-ac87-539694744dd8/page/p_hsmlex7dwd", cat: "Compet" },
-            { name: "All Care Pharmacy", img: "assets/thiings/pharmacist.png", link: "https://lookerstudio.google.com/reporting/90b1245a-a10b-4608-ac20-a4dcf5ea6267", cat: "Project" },
-            { name: "All Care", img: "assets/thiings/soap.png", link: "https://lookerstudio.google.com/reporting/7cb004e2-0eb4-4696-a621-b050426578dc/page/p_ssu0nzv2md", cat: "Project" },
-            { name: "All Select", img: "assets/thiings/reusable-coffee-cup.png", link: "https://lookerstudio.google.com/reporting/f6724a5f-2eb1-407b-b824-b4ad9dac4503", cat: "Project" },
-            { name: "All Supreme", img: "assets/thiings/nitro-coffee-tap.png", link: "https://lookerstudio.google.com/reporting/07f709ce-2733-413f-9052-e62da5a12280/page/p_jkas8ewjld", cat: "Project" },
-            { name: "Happy Pet", img: "assets/thiings/dog.png", link: "https://lookerstudio.google.com/reporting/b9a4ed87-8c67-49a9-a4c6-57502a33d138/page/X0YfD", cat: "Project" },
-            { name: "Mom & Kids", img: "assets/thiings/double-stroller.png", link: "https://lookerstudio.google.com/reporting/2146509c-c96a-4e7f-82cc-8d57f8225639", cat: "Project" },
-            { name: "Saving/LinkPack", img: "assets/thiings/parcel.png", link: "https://lookerstudio.google.com/reporting/30dec1be-2878-467e-a034-bd2351b9a571", cat: "Project" },
-            { name: "LSM_Sale", img: "assets/thiings/pricelist.png", link: "https://lookerstudio.google.com/reporting/1b10eb4a-41bc-4729-ad70-ac1d9eade6bb/page/p_b0245nd5kd", cat: "Tools" },
-            { name: "Searching", img: "assets/thiings/search-magnifier.png", link: "https://lookerstudio.google.com/reporting/b22458d3-8f6c-4633-8c29-a461cde8abcf/page/g8eAF", cat: "Tools" },
-            { name: "Adhoc Missing", img: "assets/thiings/error.png", link: "https://lookerstudio.google.com/reporting/6cc0284d-39e5-4bf7-91b9-4ae0e810e416/page/p_i20dh0iomd", cat: "Tools" }
+            { name: "Drip Coffee", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-mOoyvLISs98asAdPdQUhTac4S9Q1M9.png", link: "https://lookerstudio.google.com/reporting/448b7b2d-e14e-43c7-9888-283caf80ff7b", cat: "FSE" },
+            { name: "Fried Food", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-1Dl7jHKSCiA1Ez3RTcZwJaJkTCqtH5.png", link: "https://lookerstudio.google.com/reporting/01d65115-314c-447e-81e8-c8e2af676a45", cat: "FSE" },
+            { name: "All Tea", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-XOnrXjR0Ndf7NA9w5x64IPk0RHgpNF.png", link: "https://lookerstudio.google.com/reporting/5211caf1-5913-4379-859c-0d2c5014187a", cat: "FSE" },
+            { name: "French Bread", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-j09SjN7IVQChRChhcG4DQd2XX9D6NP.png", link: "https://lookerstudio.google.com/reporting/3f347c4f-6106-4cc9-be2a-84dab11d0772/page/p_fmw4hgzvrd", cat: "FSE" },
+            { name: "All Zapp", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-XTg4xgOgWuf4eDypKYKaGr1Sork67c.png", link: "https://lookerstudio.google.com/reporting/485f9072-6899-4698-a9e1-7abfd53e307b/page/p_fmw4hgzvrd", cat: "FSE" },
+            { name: "Suki Cup", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-NLrIRa8dkKTGFrmmVD65dRmyISi2De.png", link: "https://lookerstudio.google.com/reporting/569ef9c7-d60c-4d22-855e-6b0299a4c942/page/p_fmw4hgzvrd", cat: "FSE" },
+            { name: "Gaggia", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-u1weJfn0wFuPr9VJ0wUijZy2DVdtph.png", link: "https://lookerstudio.google.com/reporting/e679ba5d-e517-4464-b621-f2a2b2ced9cc", cat: "FSE" },
+            { name: "Go Pan", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-5uNyuXhguJ0zClCmxQxpFJEkfD6upw.png", link: "https://lookerstudio.google.com/reporting/f725f9ba-595c-4049-bc8d-46b605bbd286/page/p_02ibc9b58c", cat: "P_Yui" },
+            { name: "Go Pizza", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-BzDI4uzt2LYSK3YP9UguQDZrOZmC8X.png", link: "https://lookerstudio.google.com/reporting/ebef5dec-9199-4461-91e5-dc4c034895f7/page/p_02ibc9b58c", cat: "P_Yui" },
+            { name: "Uoriki", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-9CY8eypBeC0cXG0brbuA5jv4yGvu2n.png", link: "https://lookerstudio.google.com/reporting/e4b5c380-9403-4e1c-852e-9c50debb1883/page/p_fmw4hgzvrd", cat: "P_Yui" },
+            { name: "ThaiLaos", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-yDyPpfDpoCbHUQMnDj7RLQcsc8YKcH.png", link: "https://lookerstudio.google.com/u/0/reporting/4131dc0b-814c-4c6f-baa5-8b01d3bdfbce/page/tMQtF", cat: "LSM" },
+            { name: "GQ Easy", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-WwjASoY0i0QwhEgRJ7Qiu5Eg3KC7Jl.png", link: "https://lookerstudio.google.com/reporting/bf4d91e9-7971-4422-b866-b1b1a4566274", cat: "LSM" },
+            { name: "หลุมข้าง Vault", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-3VvT5beQ7zVUeXuJIptK5lCq8kMkXp.png", link: "https://lookerstudio.google.com/reporting/150b8a3f-7ea0-4bab-9053-c734508b0d64", cat: "LSM" },
+            { name: "Snackup & Choco", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-2UkNn8PKfxn4UzkVOzdqy1rzEieL7i.png", link: "https://lookerstudio.google.com/reporting/a8c1ea56-c535-44c0-a96f-15865ba20648", cat: "LSM" },
+            { name: "ChocoClub", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-7A67shmAxn3I6JFLINSfPdOc1q6LzB.png", link: "https://lookerstudio.google.com/reporting/c541f5d7-8c65-44e9-b0b1-98bc29db3f79", cat: "LSM" },
+            { name: "FullShelfOil", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-Lk66oBYaXEGrhyuoJJjZVDsIg8VxiX.png", link: "https://lookerstudio.google.com/reporting/9420abbb-5f06-4bda-a224-6ab8a4b63955", cat: "LSM" },
+            { name: "Missing AGC AC", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-rYQA0MBt7kN6Ap9xch2dYMInv4FzEX.png", link: "https://lookerstudio.google.com/reporting/6f22ff24-bcc7-4d4e-9b67-c1ba0d93b672", cat: "LSM" },
+            { name: "Store Tour", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-DumK8ISkd9UvCLE6rmGFPz31M62DtG.png", link: "https://lookerstudio.google.com/reporting/252966f0-9153-4e35-9ed6-ba134ae984ad", cat: "LSM" },
+            { name: "Missing All Project", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-pk94B3wBKVazOR9nDDoxJibcQb7hzC.png", link: "https://lookerstudio.google.com/reporting/de4036b8-270f-4b2b-9665-b26fca19adfc", cat: "LSM" },
+            { name: "[UB] Opentype", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-ebvFjqXzkNdcNfusfKPU09W8DBFAfR.png", link: "https://lookerstudio.google.com/reporting/e286221c-59c8-4b7f-ad2f-8e925a0c7cf5", cat: "LSM" },
+            { name: "[CM] Cheese", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-8ysCNWCXSEUz8gev3IoCnzMXrG4Dgv.png", link: "https://lookerstudio.google.com/u/0/reporting/d81e0aa4-ab21-4797-ad66-4100d565da1b/page/p_fmw4hgzvrd", cat: "LSM" },
+            { name: "[RSL] Salad", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-74oYOPyKkvUqLR9mTaRm8ab1n8FXJj.png", link: "https://lookerstudio.google.com/reporting/3b9d2ae9-725b-40b4-b529-cc891fb74332", cat: "LSM" },
+            { name: "Compet MTD", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-JuGWDxW5tzUzQbZacA8V2CW0TRBQvL.png", link: "https://lookerstudio.google.com/reporting/c81483cc-0095-4e2c-a231-8f13dff8f606/page/p_zoblimqltd", cat: "Compet" },
+            { name: "Compet YTD", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-gJgeXqFZbbutMpZyph69ryLkBlvJ77.png", link: "https://lookerstudio.google.com/reporting/8db003b6-b407-4012-a9fc-05df1360ba45/page/p_oshn5jmvvd", cat: "Compet" },
+            { name: "Adhoc Compet", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-N2VKG116RCdDw9OKcmRO31lthC6Qfs.png", link: "https://lookerstudio.google.com/reporting/4bd48d0c-8f5c-46b2-9667-b66c9cd658f9", cat: "Compet" },
+            { name: "Rebound", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-Qep2rmAXunWu8R2o1FCgLLDrtiD1q2.png", link: "https://lookerstudio.google.com/reporting/508f9525-73ad-46a4-ac87-539694744dd8/page/p_hsmlex7dwd", cat: "Compet" },
+            { name: "All Care Pharmacy", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-EWzLw8UPh4h9q6ZqOps6cSB3mK9Km3.png", link: "https://lookerstudio.google.com/reporting/90b1245a-a10b-4608-ac20-a4dcf5ea6267", cat: "Project" },
+            { name: "All Care", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-0EumVwFuSrcJSbTbqi6NGpq8ddFGKB.png", link: "https://lookerstudio.google.com/reporting/7cb004e2-0eb4-4696-a621-b050426578dc/page/p_ssu0nzv2md", cat: "Project" },
+            { name: "All Select", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-Sj5hiu4C8D7y1eyzqCCYIc1SW8R4D3.png", link: "https://lookerstudio.google.com/reporting/f6724a5f-2eb1-407b-b824-b4ad9dac4503", cat: "Project" },
+            { name: "All Supreme", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-bANEcyBX0BooEjdglLGq5C1daSHd48.png", link: "https://lookerstudio.google.com/reporting/07f709ce-2733-413f-9052-e62da5a12280/page/p_jkas8ewjld", cat: "Project" },
+            { name: "Happy Pet", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-YXDHNtGHmuIYVUpDDrH3GBHMqKQB4c.png", link: "https://lookerstudio.google.com/reporting/b9a4ed87-8c67-49a9-a4c6-57502a33d138/page/X0YfD", cat: "Project" },
+            { name: "Mom & Kids", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-MSKYQPyjJlVazzoB0biPJTXKccgumv.png", link: "https://lookerstudio.google.com/reporting/2146509c-c96a-4e7f-82cc-8d57f8225639", cat: "Project" },
+            { name: "Saving/LinkPack", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-cfG5HFRLtZ568wRFDk8NRn7hzW00fY.png", link: "https://lookerstudio.google.com/reporting/30dec1be-2878-467e-a034-bd2351b9a571", cat: "Project" },
+            { name: "LSM_Sale", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-ZR7D9Z8Kfq0h91P6QmZHlXkZfP6AVK.png", link: "https://lookerstudio.google.com/reporting/1b10eb4a-41bc-4729-ad70-ac1d9eade6bb/page/p_b0245nd5kd", cat: "Tools" },
+            { name: "Searching", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-52p9Ub8JEM1ahgmDoRazWouxX7h1DZ.png", link: "https://lookerstudio.google.com/reporting/b22458d3-8f6c-4633-8c29-a461cde8abcf/page/g8eAF", cat: "Tools" },
+            { name: "Adhoc Missing", img: "https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-fM7TQCU6bF06x2SqC3cYBSlhaYgjL2.png", link: "https://lookerstudio.google.com/reporting/6cc0284d-39e5-4bf7-91b9-4ae0e810e416/page/p_i20dh0iomd", cat: "Tools" }
         ];
 
         let currentFilter = 'ALL';
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const motionMap = {
+            "Drip Coffee": "drip-coffee",
+            "Fried Food": "fried-food",
+            "All Tea": "all-tea",
+            "French Bread": "french-bread",
+            "All Zapp": "all-zapp",
+            "Suki Cup": "suki-cup",
+            "Gaggia": "gaggia",
+            "Go Pan": "go-pan",
+            "Go Pizza": "go-pizza",
+            "Uoriki": "uoriki",
+            "ThaiLaos": "thai-laos",
+            "GQ Easy": "gq-easy",
+            "หลุมข้าง Vault": "vault",
+            "Snackup & Choco": "snackup",
+            "ChocoClub": "chococlub",
+            "FullShelfOil": "fullshelfoil",
+            "Missing AGC AC": "missing-agc",
+            "Store Tour": "store-tour",
+            "Missing All Project": "missing-project",
+            "[UB] Opentype": "ub-opentype",
+            "[CM] Cheese": "cm-cheese",
+            "[RSL] Salad": "rsl-salad",
+            "Compet MTD": "compet-mtd",
+            "Compet YTD": "compet-ytd",
+            "Adhoc Compet": "adhoc-compet",
+            "Rebound": "rebound",
+            "All Care Pharmacy": "all-care-pharmacy",
+            "All Care": "all-care",
+            "All Select": "all-select",
+            "All Supreme": "all-supreme",
+            "Happy Pet": "happy-pet",
+            "Mom & Kids": "mom-kids",
+            "Saving/LinkPack": "linkpack",
+            "LSM_Sale": "lsm-sale",
+            "Searching": "searching",
+            "Adhoc Missing": "adhoc-missing"
+        };
 
         function scramble(el, text) {
             let n = 0;
@@ -229,8 +403,10 @@
             const filtered = currentFilter === 'ALL' ? dashboards : dashboards.filter(d => d.cat === currentFilter);
             
             document.getElementById('dashboardGrid').innerHTML = filtered.map((db, index) => `
-                <a href="${db.link}" target="_blank" class="keeper-card" style="--card-index:${index}">
-                    <div class="img-container"><img src="${db.img}"></div>
+                <a href="${db.link}" target="_blank" class="keeper-card" data-motion="${motionMap[db.name] || 'drip-coffee'}" style="--card-index:${index}">
+                    <div class="img-container">
+                        <div class="icon-motion"><img src="${db.img}" alt="${db.name}"></div>
+                    </div>
                     <div class="label-wrap">
                         <div class="dot"></div>
                         <span class="card-label name-tag" data-name="${db.name}">${db.name}</span>
