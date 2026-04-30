@@ -267,10 +267,41 @@
         }
 
         /* Filter Sidebar */
+        .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.45;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 16px 18px;
+            margin-bottom: 32px;
+            outline: none;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 0;
+        }
+
+        .search-input::placeholder {
+            color: var(--text);
+            opacity: 0.35;
+        }
+
+        .search-input:focus {
+            border-color: var(--text);
+        }
+
         .filter-item { cursor: pointer; transition: all 0.2s; opacity: 0.3; padding: 15px 0; border-bottom: 1px solid var(--border); }
         .filter-item:hover { opacity: 0.8; }
         .filter-item.active { opacity: 1; border-left: 3px solid var(--text); padding-left: 15px; margin-left: -15px; }
-
         main::-webkit-scrollbar { width: 5px; }
         main::-webkit-scrollbar-thumb { background: var(--scroll-thumb); }
 
@@ -287,13 +318,14 @@
 
     <nav>
         <div class="flex gap-2 flex-col"><span class="w-8 h-[3px] bg-current"></span><span class="w-8 h-[3px] bg-current"></span></div>
-        <div class="nav-title hidden md:block">Jam Dashboard // Gallery</div>
-        <div class="nav-title">Dark Mode</div>
+        <div class="nav-title hidden md:block">Jam Dashboard Gallery</div>
+        <div class="w-8"></div>
     </nav>
 
     <div class="wrapper">
         <aside>
-            <h1 class="aside-title mb-10">Filters</h1>
+            <input id="searchInput" class="search-input" type="search" placeholder="Search dashboard" autocomplete="off">
+            <div class="section-label">Categories</div>
             <div id="filterContainer"></div>
         </aside>
 
@@ -345,6 +377,7 @@
         ];
 
         let currentFilter = 'ALL';
+        let searchQuery = '';
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         const motionMap = {
             "Drip Coffee": "drip-coffee",
@@ -399,8 +432,17 @@
             render();
         }
 
+        function searchData(value) {
+            searchQuery = value.trim().toLowerCase();
+            render();
+        }
+
         function render() {
-            const filtered = currentFilter === 'ALL' ? dashboards : dashboards.filter(d => d.cat === currentFilter);
+            const filtered = dashboards.filter(d => {
+                const matchesCategory = currentFilter === 'ALL' || d.cat === currentFilter;
+                const matchesSearch = !searchQuery || `${d.name} ${d.cat}`.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
             
             document.getElementById('dashboardGrid').innerHTML = filtered.map((db, index) => `
                 <a href="${db.link}" target="_blank" class="keeper-card" data-motion="${motionMap[db.name] || 'drip-coffee'}" style="--card-index:${index}">
@@ -431,6 +473,7 @@
             document.getElementById('itemCount').innerText = `${filtered.length} ITEMS IDENTIFIED`;
         }
 
+        document.getElementById('searchInput').addEventListener('input', e => searchData(e.target.value));
         render();
     </script>
 </body>
